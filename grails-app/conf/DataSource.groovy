@@ -1,57 +1,62 @@
 dataSource {
     pooled = true
-    jmxExport = true
-    driverClassName = "org.h2.Driver"
-    username = "sa"
-    password = ""
+    driverClassName = "com.mysql.jdbc.Driver"
+    dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
 }
 hibernate {
     cache.use_second_level_cache = true
-    cache.use_query_cache = false
-//    cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory' // Hibernate 3
-    cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory' // Hibernate 4
-    singleSession = true // configure OSIV singleSession mode
-    flush.mode = 'manual' // OSIV session flush mode outside of transactional context
+    cache.use_query_cache = true
+    cache.provider_class = 'net.sf.ehcache.hibernate.EhCacheProvider'
 }
 
 // environment specific settings
 environments {
     development {
-//        dataSource {
-//            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-//            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
-//        }
+//		dataSource {
+//			dbCreate = "create-drop"
+//			driverClassName = "org.postgresql.Driver"
+//			dialect = org.hibernate.dialect.PostgreSQLDialect
+//	
+//			uri = new URI(System.env.DATABASE_URL?:"postgres://postgres:kjantar@localhost:5432/postgres")
+//	
+//			url = "jdbc:postgresql://" + uri.host + ":" + uri.port + uri.path
+//			username = uri.userInfo.split(":")[0]
+//			password = uri.userInfo.split(":")[1]
+//		}
 		dataSource {
-			dbCreate = "create-drop"
-			driverClassName = "org.postgresql.Driver"
-			dialect = org.hibernate.dialect.PostgreSQLDialect
-	
-			uri = new URI(System.env.DATABASE_URL?:"postgres://postgres:kjantar@localhost/postgres")
-//			uri = new URI(System.env.DATABASE_URL?:"postgres://lzraqhwvcazrjz:R2n2xv_9eT3bDTYbDRiDY1vuvl@ec2-23-23-81-221.compute-1.amazonaws.com:5432/df0f1m0h4ksgum")
-	
-			url = "jdbc:postgresql://" + uri.host + ":" + uri.port + uri.path
-			username = uri.userInfo.split(":")[0]
-			password = uri.userInfo.split(":")[1]
+			dbCreate = "create" // one of 'create', 'create-drop','update'
+			url = "jdbc:mysql://localhost/twitch?useUnicode=yes&characterEncoding=UTF-8"
+			username = "ep3998"
+			password = "kjantar"
+		}
+		hibernate {
+			show_sql = true
 		}
     }
     test {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
+            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+            url = "jdbc:mysql://localhost/TESTDBNAME?useUnicode=yes&characterEncoding=UTF-8"
+            username = "test"
+            password = "testpw"
         }
     }
     production {
 		dataSource {
 			dbCreate = "update"
-			driverClassName = "org.postgresql.Driver"
-			dialect = org.hibernate.dialect.PostgreSQLDialect
+//			driverClassName = "org.postgresql.Driver"
+//			dialect = org.hibernate.dialect.PostgreSQLDialect
+			uri = new URI(System.env.DATABASE_URL?:"mysql://b39ac7849d6c08:c386fbbc@us-cdbr-iron-east-02.cleardb.net/heroku_bc2c2f3abde1dd9?reconnect=true")
 	
-//			uri = new URI(System.env.DATABASE_URL?:"postgres://postgres:kjantar@localhost/postgres")
-			uri = new URI(System.env.DATABASE_URL?:"postgres://lzraqhwvcazrjz:R2n2xv_9eT3bDTYbDRiDY1vuvl@ec2-23-23-81-221.compute-1.amazonaws.com:5432/df0f1m0h4ksgum")
-	
-			url = "jdbc:postgresql://" + uri.host + ":" + uri.port + uri.path
+			url = "jdbc:mysql://" + uri.host + ":" + uri.port + uri.path
 			username = uri.userInfo.split(":")[0]
 			password = uri.userInfo.split(":")[1]
 		}
+//		dataSource {
+//			dbCreate = "update"
+//			url = "jdbc:mysql://localhost/PRODDBNAME?useUnicode=yes&characterEncoding=UTF-8"
+//			username = "prod"
+//			password = "prodpw"
+//		}
     }
 }

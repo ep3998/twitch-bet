@@ -21,7 +21,8 @@
 $(function() {
 	Twitch.init({clientId: '2bfk0cpc2exk2xykkxctcngdpqtppnl'}, function(error, status) {
 		console.log(status);
-
+		$("#butTwitchLogout").hide();
+		
 		if (error) {
 			// error encountered while loading
 			console.log(error);
@@ -30,7 +31,8 @@ $(function() {
 		}
 		// the sdk is now loaded
 		if (status.authenticated) {
-	    	$(".twitch-connect").hide()
+	    	$(".twitch-connect").hide();
+	    	$("#butTwitchLogout").show();
 
 	    	//Get user object
 	    	Twitch.api({method: 'user'}, function(error, user){
@@ -41,11 +43,24 @@ $(function() {
 	});
 
 	$('.twitch-connect').on('click', function() {
-		console.log("Hello Click");
+		console.log("Twitch Login");
 		Twitch.login({
-			scope: ['user_read', 'channel_read']
+			scope: ['user_read']
 		});
 	})
+
+	$('#butTwitchLogout').on('click', function(){
+		console.log("Twitch Logout");
+		Twitch.logout(function(error) {
+		    if(error){
+				console.log(error);
+			} else {
+				window.location = window.location.pathname;
+			}
+		});
+	});
+
+	$('#adminTabs a:first').tab('show')
 });
 </script>
 </html>

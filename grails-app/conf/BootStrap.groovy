@@ -1,6 +1,57 @@
+import twitch.bet.bo.User
+import twitch.bet.bo.Event
+import twitch.bet.bo.EventChoice
+import twitch.bet.bo.Channel
+import twitch.bet.bo.Bet
+
 class BootStrap {
 
     def init = { servletContext ->
+		log.println "Event Count - " + Event.count()
+		if(!Event.count()){
+			log.println "Populating default values."
+			for(i in 0..3){
+				def newEvent = new Event()
+				newEvent.name = "My Event ${i}"
+				newEvent.statRuns = i + 1
+				newEvent.statUsers = 3
+				newEvent.statTotalMoney = 100000.00
+				newEvent.choices = []
+				
+				for(j in 0..2){
+					def newChoice = new EventChoice()
+					newChoice.name = "Event ${i} Choice ${j}"
+					newChoice.description = "Description here"
+					newChoice.odds = j + 1
+					newChoice.isActive = true
+					newChoice.statWin = 1
+					newChoice.statLoss = 1
+					newChoice.statWinDollar = 10.00
+					newChoice.statLossDollar = 20.00
+					
+					newEvent.addToChoices(newChoice)
+				} 
+				
+				log.println "New Event: ${newEvent}"
+				newEvent.save(failOnError: true)
+			}
+		}
+		log.println "Event Count - " + Event.count()
+//		
+//		
+//		
+//		defBets Bet[]
+//		for(int i = 0; i < 3; i++){
+//			newBet = new Bet()
+//		}
+//		
+//		if (User.count() == 0) {
+//			
+//			
+//			new User(twitchId: '1', name: 'ep3998', money: 20000.00).save()
+//			new User(twitchId: '2', name: 'jdoe', money: 10000.00).save()
+//			new User(twitchId: '3', name: 'kdoe', money: 2000.00).save()
+//		}
     }
     def destroy = {
     }
