@@ -25,6 +25,8 @@ environments {
 //		}
 		dataSource {
 			dbCreate = "create" // one of 'create', 'create-drop','update'
+			driverClassName = "com.mysql.jdbc.Driver"
+			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
 			url = "jdbc:mysql://localhost/twitch?useUnicode=yes&characterEncoding=UTF-8"
 			username = "ep3998"
 			password = "kjantar"
@@ -36,6 +38,8 @@ environments {
     test {
         dataSource {
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+			driverClassName = "com.mysql.jdbc.Driver"
+			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
             url = "jdbc:mysql://localhost/TESTDBNAME?useUnicode=yes&characterEncoding=UTF-8"
             username = "test"
             password = "testpw"
