@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="en">
 <head>
-
 	<meta name="layout" content="main"/>
 	<title>Twitch-bet Main</title>
 </head>

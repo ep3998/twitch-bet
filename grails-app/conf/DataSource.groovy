@@ -46,11 +46,13 @@ environments {
 			dbCreate = "update"
 //			driverClassName = "org.postgresql.Driver"
 //			dialect = org.hibernate.dialect.PostgreSQLDialect
-			uri = new URI(System.env.DATABASE_URL?:"mysql://b39ac7849d6c08:c386fbbc@us-cdbr-iron-east-02.cleardb.net/heroku_bc2c2f3abde1dd9?reconnect=true")
+			driverClassName = "com.mysql.jdbc.Driver"
+			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"			
+			uri = "jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_bc2c2f3abde1dd9?reconnect=true&useUnicode=yes&characterEncoding=UTF-8"
 	
-			url = "jdbc:mysql://" + uri.host + ":" + uri.port + uri.path
-			username = uri.userInfo.split(":")[0]
-			password = uri.userInfo.split(":")[1]
+//			url = "jdbc:mysql://" + uri.host + ":" + uri.port + uri.path
+			username = "b39ac7849d6c08"
+			password = "c386fbbc"
 		}
 //		dataSource {
 //			dbCreate = "update"
