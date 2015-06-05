@@ -8,7 +8,7 @@
 	<div class="container">
 		<div class="page-header">
 	        <h1>Twitch-bet</h1>
-	        <p class="lead">Gambling your hats away in Team Fortress 2</p>
+	        <p class="lead">Gambling your hats away in Team Fortress 2 since 2015</p>
 	    </div>
 	    
 		<nav class="navbar navbar-default">
@@ -41,12 +41,11 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="embed-responsive embed-responsive-16by9">
-					<iframe class="embed-responsive-item" src="http://www.twitch.tv/geekandsundry/embed"></iframe>
+					<iframe class="embed-responsive-item" src="http://www.twitch.tv/${params.channel}/embed"></iframe>
 				</div>
-				
 			</div>		
 			<div class="col-md-4">
-				<iframe src="http://www.twitch.tv/geekandsundry/chat?popout=" frameborder="0" scrolling="no" height="500" width="350"></iframe>
+				<iframe src="http://www.twitch.tv/${params.channel}/chat?popout=" frameborder="0" scrolling="no" height="500" width="350"></iframe>
 			</div>
 		</div>
 		

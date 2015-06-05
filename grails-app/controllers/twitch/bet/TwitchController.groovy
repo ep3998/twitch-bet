@@ -2,5 +2,7 @@ package twitch.bet
 
 class TwitchController {
 
-    def index() { }
+    def index() { 
+		render index: [channel:params.stream]
+	}
 }
