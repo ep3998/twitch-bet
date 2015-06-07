@@ -12,24 +12,11 @@ hibernate {
 // environment specific settings
 environments {
     development {
-//		dataSource {
-//			dbCreate = "create-drop"
-//			driverClassName = "org.postgresql.Driver"
-//			dialect = org.hibernate.dialect.PostgreSQLDialect
-//	
-//			uri = new URI(System.env.DATABASE_URL?:"postgres://postgres:kjantar@localhost:5432/postgres")
-//	
-//			url = "jdbc:postgresql://" + uri.host + ":" + uri.port + uri.path
-//			username = uri.userInfo.split(":")[0]
-//			password = uri.userInfo.split(":")[1]
-//		}
 		dataSource {
 			dbCreate = "create" // one of 'create', 'create-drop','update'
-			driverClassName = "com.mysql.jdbc.Driver"
-			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
 			url = "jdbc:mysql://localhost/twitch?useUnicode=yes&characterEncoding=UTF-8"
-			username = "ep3998"
-			password = "kjantar"
+			username = "root"
+			password = "Pika3998"
 		}
 		hibernate {
 			show_sql = true
@@ -38,8 +25,6 @@ environments {
     test {
         dataSource {
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-			driverClassName = "com.mysql.jdbc.Driver"
-			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
             url = "jdbc:mysql://localhost/TESTDBNAME?useUnicode=yes&characterEncoding=UTF-8"
             username = "test"
             password = "testpw"
@@ -47,22 +32,23 @@ environments {
     }
     production {
 		dataSource {
+			username = "admin"
+			password = "Pika3998"
+			url = "jdbc:mysql://aa1m4jkogvxof3a.c8ufjlqjipye.us-west-1.rds.amazonaws.com:3306/ebdb?reconnect=true"
+//			url = "jdbc:mysql://localhost/twitch?useUnicode=yes&characterEncoding=UTF-8"
+//			username = "root"
+//			password = "Pika3998"
+			
 			dbCreate = "update"
-//			driverClassName = "org.postgresql.Driver"
-//			dialect = org.hibernate.dialect.PostgreSQLDialect
-			driverClassName = "com.mysql.jdbc.Driver"
-			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"			
-			uri = "jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_bc2c2f3abde1dd9?reconnect=true&useUnicode=yes&characterEncoding=UTF-8"
-	
-//			url = "jdbc:mysql://" + uri.host + ":" + uri.port + uri.path
-			username = "b39ac7849d6c08"
-			password = "c386fbbc"
+			properties {
+				validationQuery = "SELECT 1"
+				testOnBorrow = true
+				testOnReturn = true
+				testWhileIdle = true
+				timeBetweenEvictionRunsMillis = 1800000
+				numTestsPerEvictionRun = 3
+				minEvictableIdleTimeMillis = 1800000
+			}
 		}
-//		dataSource {
-//			dbCreate = "update"
-//			url = "jdbc:mysql://localhost/PRODDBNAME?useUnicode=yes&characterEncoding=UTF-8"
-//			username = "prod"
-//			password = "prodpw"
-//		}
     }
 }

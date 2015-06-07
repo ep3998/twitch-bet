@@ -95,6 +95,7 @@ environments {
         grails.logging.jul.usebridge = false
 		grails.twitch.clientid = "2bfk0cpc2exk2xykkxctcngdpqtppnl"
 		grails.twitch.clientsecret = "1seqhybmx293oyn3escuo71smeldi1c"
+		grails.serverURL = "http://twitch-test-env.elasticbeanstalk.com/"
         // TODO: grails.serverURL = "http://www.changeme.com"
     }
 }
