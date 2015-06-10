@@ -42,6 +42,15 @@
 					
 				</li>
 				</g:if>
+				
+				<g:if test="${eventInstance?.channel}">
+				<li class="fieldcontain">
+					<span id="channel-label" class="property-label"><g:message code="event.channel.label" default="Channel" /></span>
+					
+						<span class="property-value" aria-labelledby="channel-label"><g:fieldValue bean="${eventInstance}" field="channel"/></span>
+					
+				</li>
+				</g:if>
 			
 				<g:if test="${eventInstance?.statRuns}">
 				<li class="fieldcontain">

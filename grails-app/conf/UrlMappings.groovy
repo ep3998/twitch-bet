@@ -7,7 +7,7 @@ class UrlMappings {
             }
         }
 		
-		"/twitch/$stream?"(controller: "twitch", view:"/twitch/index")
+		"/twitch/$stream?/$action?"(controller: "twitch")
 
         "/"(view:"/index")
         "500"(view:'/error')

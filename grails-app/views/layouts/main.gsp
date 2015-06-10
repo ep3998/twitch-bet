@@ -12,6 +12,7 @@
 		<title><g:layoutTitle default="Grails"/></title>
   		<asset:stylesheet src="application.css"/>
 		<asset:javascript src="application.js"/>
+<%--		<asset:javascript src="listgroup.js"/>--%>
 		<g:layoutHead/>
 	</head>
 	<body>
@@ -19,7 +20,9 @@
 	</body>
 <script>
 $(function() {
-	Twitch.init({clientId: '2bfk0cpc2exk2xykkxctcngdpqtppnl'}, function(error, status) {
+	var twitchClientId = "${grailsApplication.config.twitch.clientid}";
+	
+	Twitch.init({clientId: twitchClientId}, function(error, status) {
 		console.log(status);
 		$("#butTwitchLogout").hide();
 		
@@ -61,6 +64,87 @@ $(function() {
 	});
 
 	$('#adminTabs a:first').tab('show')
+
+	function updateEvent(eventName){
+		var id = eventName.substring(eventName.indexOf('_')+1)
+		console.log('Updating event - ', id);
+
+		$.ajax({
+			type: 'POST',
+            url: "/twitch-bet/twitch/${twitchStream}/getEvent",
+            dataType: 'json',
+            data:{eventId:id},
+            success: function(data) {
+                console.log(data); //<-----this logs the data in browser's console
+                $("#runEventName").html(data.name);
+        		$("#runEventChannel").html(data.channel);
+
+        		$("#runEventCol2").removeClass('hidden');
+            },
+            error: function(xhr){
+                alert(xhr.responseText); //<----when no data alert the err msg
+            }
+        });
+	}
+	
+	$('#runEventList a').on('click', function(e) {
+        e.preventDefault();
+        var currId = e.target.id;
+
+        $that = $(this);
+
+		if(!$that.hasClass('disabled')){
+	        $that.parent().find('a').removeClass('active');
+	        $that.addClass('active');
+	
+			console.log('Click');
+			updateEvent(e.target.id);
+		}
+    });
+
+    function resetEvent(){
+    	$('#runEventTimer').timer('remove');
+    	$('#runEventBetOpen').removeClass().addClass('btn btn-success');
+    	$('#runEventBetClose').removeClass().addClass('btn btn-default disabled');
+
+    	//Reset total values
+    	$('#runEventTotalUser').text("0");
+    	$('#runEventTotalBets').text("0");
+
+    	//Reset winner choice
+    	$('#runEventWinnerDropdown').addClass('disabled');
+    	$('#runEventWinnerLock').addClass('disabled');
+    }
+
+    $('#runEventLock').click(function(e){
+		if($("#runEventCol3").hasClass('hidden')){
+			$("#runEventLock").text("Unlock Event");
+			resetEvent();
+		} else {
+			$("#runEventLock").text("Lock Event");
+		}
+
+		$("#runEventList a").toggleClass('disabled');
+		$("#runEventCol3").toggleClass('hidden');
+				
+		$("#runEventLock").toggleClass("btn-default").toggleClass("btn-primary");
+    });
+
+    $('#runEventBetOpen').on('click', function(e){
+    	$('#runEventBetOpen').addClass('disabled');
+    	$('#runEventBetClose').removeClass('disabled').addClass('btn-danger');
+
+		$('#runEventTimer').timer();
+    });
+
+    $('#runEventBetClose').on('click', function(e){
+    	$('#runEventBetClose').addClass('disabled');
+		$('#runEventTimer').timer('pause');
+
+		$('#runEventWinnerDropdown').removeClass('disabled');
+		$('#runEventWinnerLock').removeClass('disabled');
+    });
+    
 });
 </script>
 </html>

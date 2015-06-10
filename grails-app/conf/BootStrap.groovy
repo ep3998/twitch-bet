@@ -10,10 +10,14 @@ class BootStrap {
 		log.println "Event Count - " + Event.count()
 		if(!Event.count()){
 			log.println "Populating default values."
-			for(i in 0..3){
+			for(i in 0..8){
 				def newEvent = new Event()
 				newEvent.name = "My Event ${i}"
-				newEvent.statRuns = i + 1
+				if( i < 6){
+					newEvent.channel = "geekandsundry"
+				} else {
+					newEvent.channel = "ep3998"
+				}
 				newEvent.statUsers = 3
 				newEvent.statTotalMoney = 100000.00
 				newEvent.choices = []
@@ -34,6 +38,38 @@ class BootStrap {
 				
 				log.println "New Event: ${newEvent}"
 				newEvent.save(failOnError: true)
+				
+				if(i % 2){
+					def newEventTemplate = new Event()
+					newEventTemplate.name = "Event ${i} Template"
+					newEventTemplate.statRuns = i + 1
+					newEventTemplate.statTotalMoney = 500000.00
+					newEventTemplate.isTemplate = true
+					
+					if( i < 6){
+						newEventTemplate.channel = "geekandsundry"
+					} else {
+						newEventTemplate.channel = "ep3998"
+					}
+					
+					newEvent.choices = []
+					
+					for(j in 0..2){
+						def newChoice = new EventChoice()
+						newChoice.name = "Event ${i} Choice ${j}"
+						newChoice.description = "Description here"
+						newChoice.odds = j + 1
+						newChoice.isActive = true
+						newChoice.statWin = 1
+						newChoice.statLoss = 1
+						newChoice.statWinDollar = 10.00
+						newChoice.statLossDollar = 20.00
+						
+						newEvent.addToChoices(newChoice)
+					}
+					
+					newEventTemplate.save(failOnError: true)
+				}
 			}
 		}
 		log.println "Event Count - " + Event.count()

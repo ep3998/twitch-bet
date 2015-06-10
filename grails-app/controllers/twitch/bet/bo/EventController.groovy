@@ -12,6 +12,7 @@ class EventController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
+		log.println(params)
         respond Event.list(params), model:[eventInstanceCount: Event.count()]
     }
 
