@@ -88,15 +88,14 @@ grails.hibernate.osiv.readonly = false
 environments {
     development {
         grails.logging.jul.usebridge = true
-		grails.twitch.clientid = "2bfk0cpc2exk2xykkxctcngdpqtppnl"
-		grails.twitch.clientsecret = "1seqhybmx293oyn3escuo71smeldi1c"
+		twitch.clientid = "2bfk0cpc2exk2xykkxctcngdpqtppnl"
+		twitch.clientsecret = "dnst85qmhi9gbxe0fijh4x2sc5wb7mv"
     }
     production {
         grails.logging.jul.usebridge = false
-		grails.twitch.clientid = "2bfk0cpc2exk2xykkxctcngdpqtppnl"
-		grails.twitch.clientsecret = "1seqhybmx293oyn3escuo71smeldi1c"
+		twitch.clientid = "ff10n6zw9ifvt5chysww9ox6ettgzkb"
+		twitch.clientsecret = "shzbgul02s8rr9vkiae1ye8xibhszpb"
 		grails.serverURL = "http://twitch-test-env.elasticbeanstalk.com/"
-        // TODO: grails.serverURL = "http://www.changeme.com"
     }
 }
 

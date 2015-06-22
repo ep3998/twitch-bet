@@ -65,6 +65,20 @@ $(function() {
 
 	$('#adminTabs a:first').tab('show')
 
+	function updateChoiceList(){
+		$.ajax({
+			type: 'POST',
+            url: "/twitch-bet/twitch/${twitchStream}/getChoiceList",
+            dataType: 'text/plain',
+            success: function(data) {
+        		$("#runEventWinnerList").html(data);
+            },
+            error: function(xhr){
+                alert(xhr.responseText); //<----when no data alert the err msg
+            }
+        });
+	}
+	
 	function updateEvent(eventName){
 		var id = eventName.substring(eventName.indexOf('_')+1)
 		console.log('Updating event - ', id);
@@ -74,6 +88,30 @@ $(function() {
             url: "/twitch-bet/twitch/${twitchStream}/getEvent",
             dataType: 'json',
             data:{eventId:id},
+            success: function(data) {
+                console.log(data); //<-----this logs the data in browser's console
+                $("#runEventName").html(data.name);
+        		$("#runEventChannel").html(data.channel);
+        		$("#runEventCol2").removeClass('hidden');
+
+        		updateChoiceList();
+            },
+            error: function(xhr){
+                alert(xhr.responseText); //<----when no data alert the err msg
+            }
+        });
+	}
+
+	function saveEventWinner(winner){
+		var eventId = $('#runEventList a .active').id;
+		console.log("Event Winner Id - " + eventId);
+
+		$.ajax({
+			type: 'POST',
+            url: "/twitch-bet/twitch/${twitchStream}/getEvent",
+            dataType: 'json',
+            data:{eventId:id,
+                winner:winner},
             success: function(data) {
                 console.log(data); //<-----this logs the data in browser's console
                 $("#runEventName").html(data.name);
@@ -142,8 +180,22 @@ $(function() {
 		$('#runEventTimer').timer('pause');
 
 		$('#runEventWinnerDropdown').removeClass('disabled');
-		$('#runEventWinnerLock').removeClass('disabled');
     });
+
+    $('#runEventWinnerLock').on('click', function(e){
+		var selWinner = $('#runEventWinnerDropdown').text();
+		console.log("Saving winner - " + selWinner);
+    });
+        
+
+    $(".dropdown-menu li a").on('click', function(){
+    	var selText = $(this).text();
+        console.log("Menu clicked - " + selText);
+
+        $('#runEventWinnerLock').removeClass('disabled');
+   		
+   		$(this).parents('.dropup').find('button[data-toggle="dropdown"]').html(selText+' <span class="caret"></span>');
+   	});
     
 });
 </script>

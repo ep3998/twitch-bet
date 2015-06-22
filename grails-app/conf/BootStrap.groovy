@@ -20,6 +20,10 @@ class BootStrap {
 				}
 				newEvent.statUsers = 3
 				newEvent.statTotalMoney = 100000.00
+				newEvent.startDate = new Date()
+				newEvent.startDate.set(year: 2015, month: java.util.Calendar.NOVEMBER, date: 1, hour: 0)
+				newEvent.endDate = new Date()
+				newEvent.endDate.set(year: 2015, month: java.util.Calendar.NOVEMBER, date: 1, hour: 1)
 				newEvent.choices = []
 				
 				for(j in 0..2){
@@ -52,7 +56,7 @@ class BootStrap {
 						newEventTemplate.channel = "ep3998"
 					}
 					
-					newEvent.choices = []
+					newEventTemplate.choices = []
 					
 					for(j in 0..2){
 						def newChoice = new EventChoice()
@@ -65,7 +69,7 @@ class BootStrap {
 						newChoice.statWinDollar = 10.00
 						newChoice.statLossDollar = 20.00
 						
-						newEvent.addToChoices(newChoice)
+						newEventTemplate.addToChoices(newChoice)
 					}
 					
 					newEventTemplate.save(failOnError: true)

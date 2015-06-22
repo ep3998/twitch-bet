@@ -5,6 +5,7 @@ class Bet {
 	EventChoice choice
 	double dollarAmt
 	boolean isWin
+	Date betDate
 	
     static constraints = {
     }

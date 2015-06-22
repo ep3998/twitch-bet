@@ -8,10 +8,14 @@ class Event {
 	int statUsers
 	double statTotalMoney
 	boolean isTemplate
+	Date startDate
+	Date endDate
 	
 	static hasMany = [ choices: EventChoice ]
 	
     static constraints = {
 		winner(nullable: true)
+		startDate(nullable: true)
+		endDate(nullable: true)
     }
 }

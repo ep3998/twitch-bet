@@ -6,8 +6,8 @@ class UrlMappings {
                 // apply constraints here
             }
         }
-		
-		"/twitch/$stream?/$action?"(controller: "twitch")
+		"/twitch/"(redirect:"/twitch/geekandsundry/")
+		"/twitch/$stream/$action?"(controller: "twitch")
 
         "/"(view:"/index")
         "500"(view:'/error')

@@ -41,11 +41,11 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="embed-responsive embed-responsive-16by9">
-					<iframe class="embed-responsive-item" src="http://www.twitch.tv/${twitchStream}/embed"></iframe>
+<%--					<iframe class="embed-responsive-item" src="http://www.twitch.tv/${twitchStream}/embed"></iframe>--%>
 				</div>
 			</div>		
 			<div class="col-md-4">
-				<iframe src="http://www.twitch.tv/${twitchStream}/chat?popout=" frameborder="0" scrolling="no" height="500" width="350"></iframe>
+<%--				<iframe src="http://www.twitch.tv/${twitchStream}/chat?popout=" frameborder="0" scrolling="no" height="500" width="350"></iframe>--%>
 			</div>
 		</div>
 		
@@ -63,10 +63,10 @@
 					<table class="table">
 						<thead>
 						<tr>
-							<g:sortableColumn property="name" title="${message(code: 'event.name.label', default: 'Name')}" />
-							<g:sortableColumn property="statRuns" title="${message(code: 'event.statRuns.label', default: 'Stat Runs')}" />
-							<g:sortableColumn property="statTotalMoney" title="${message(code: 'event.statTotalMoney.label', default: 'Stat Total Money')}" />
-							<g:sortableColumn property="statUsers" title="${message(code: 'event.statUsers.label', default: 'Stat Users')}" />
+							<th><g:message code="event.name.label" default="Name"/></th>
+							<th><g:message code="event.statRuns.label" default="Stat Runs"/></th>
+							<th><g:message code="event.statTotalMoney.label" default="Stat Total Money"/></th>
+							<th><g:message code="event.statUsers.label" default="Stat Users" /></th>
 							<th><g:message code="event.winner.label" default="Winner" /></th>
 						</tr>
 					</thead>
@@ -137,11 +137,11 @@
 								    Choose Winner...
 								    <span class="caret"></span>
 								  </button>
-								  <ul class="dropdown-menu" role="menu" aria-labelledby="runEventWinnerDropdown">
-								    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Winner 1</a></li>
-								    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Winner 2</a></li>
-								    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Winner 3</a></li>
-								    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Winner 4</a></li>
+								  <ul id="runEventWinnerList" class="dropdown-menu" role="menu" aria-labelledby="runEventWinnerDropdown">
+<%--								    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Winner 1</a></li>--%>
+<%--								    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Winner 2</a></li>--%>
+<%--								    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Winner 3</a></li>--%>
+<%--								    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Winner 4</a></li>--%>
 								  </ul>
 								</div>
 								<button id="runEventWinnerLock" type="button" class="btn btn-danger disabled">Lock Winner</button>
@@ -182,22 +182,22 @@
 						
 						<div class="col-md-5">
 							<h3>Event Details</h3>
-							<table class="table">
-								<thead>
-								<tr>
-									<th><g:message code="eventchoice.name" default="Name"/></th>
-									<th><g:message code="eventchoice.odds" default="Odds"/></th>
-									<th><g:message code="eventchoice.description" default="Description"/></th>
-								</tr>
-							</thead>
-							<g:each in="${events[0].choices}" status="i" var="choiceInstance">
-								<tr>
-									<td><g:link action="show" id="${choiceInstance.id}">${fieldValue(bean: choiceInstance, field: "name")}</g:link></td>
-									<td>${fieldValue(bean: choiceInstance, field: "odds")}</td>
-									<td>${fieldValue(bean: choiceInstance, field: "description")}</td>
-								</tr>
-							</g:each>
-							</table>
+<%--							<table class="table">--%>
+<%--								<thead>--%>
+<%--								<tr>--%>
+<%--									<th><g:message code="eventchoice.name.label" default="Name"/></th>--%>
+<%--									<th><g:message code="eventchoice.odds.label" default="Odds"/></th>--%>
+<%--									<th><g:message code="eventchoice.description.label" default="Description"/></th>--%>
+<%--								</tr>--%>
+<%--							</thead>--%>
+<%--							<g:each in="${events[0].choices}" status="i" var="choiceInstance">--%>
+<%--								<tr>--%>
+<%--									<td><g:link action="show" id="${choiceInstance.id}">${fieldValue(bean: choiceInstance, field: "name")}</g:link></td>--%>
+<%--									<td>${fieldValue(bean: choiceInstance, field: "odds")}</td>--%>
+<%--									<td>${fieldValue(bean: choiceInstance, field: "description")}</td>--%>
+<%--								</tr>--%>
+<%--							</g:each>--%>
+<%--							</table>--%>
 						</div>
 						
 						<div class="col-md-5">
