@@ -10,7 +10,7 @@
 //= require_self
 //= require bootstrap
 //= require twitch
-//= require index
+//= require runEvent
 
 if (typeof jQuery !== 'undefined') {
 	(function($) {

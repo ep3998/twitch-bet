@@ -11,17 +11,17 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><g:layoutTitle default="Grails"/></title>
   		<asset:stylesheet src="application.css"/>
-		<asset:javascript src="application.js"/>
-<%--		<asset:javascript src="listgroup.js"/>--%>
 		<g:layoutHead/>
 	</head>
 	<body>
 		<g:layoutBody/>
+		<asset:javascript src="application.js"/>
 	</body>
 <script>
 $(function() {
 	var twitchClientId = "${grailsApplication.config.twitch.clientid}";
-	
+
+	//Initialize Twitch
 	Twitch.init({clientId: twitchClientId}, function(error, status) {
 		console.log(status);
 		$("#butTwitchLogout").hide();
@@ -36,22 +36,38 @@ $(function() {
 		if (status.authenticated) {
 	    	$(".twitch-connect").hide();
 	    	$("#butTwitchLogout").show();
-
+			$("#welcomeSection").hide();	
+	    	
 	    	//Get user object
 	    	Twitch.api({method: 'user'}, function(error, user){
-				console.debug(user._id);
-				console.debug(user.name);
+				var username = user.name;
+				var userid = user._id;
+				var stream = "${twitchStream}";
+		    	
+				console.debug(userid);
+				console.debug(username);
+
+				//if((stream == username) || (username == "ep3998")){
+				if((stream == username)){
+					$("#adminSection").removeClass("hidden");
+				} else {
+					$("#userSection").removeClass("hidden");
+				}
+
+			    grabUserInfo(userid, username);	
 	    	});
 		}
 	});
 
+	//Login to Twitch
 	$('.twitch-connect').on('click', function() {
 		console.log("Twitch Login");
 		Twitch.login({
 			scope: ['user_read']
 		});
 	})
-
+	
+	//Logout of Twitch
 	$('#butTwitchLogout').on('click', function(){
 		console.log("Twitch Logout");
 		Twitch.logout(function(error) {
@@ -63,140 +79,25 @@ $(function() {
 		});
 	});
 
+	//Initialize tabs
 	$('#adminTabs a:first').tab('show')
+	$('#userTabs a:first').tab('show')
 
-	function updateChoiceList(){
+	function grabUserInfo(userid, username){
 		$.ajax({
 			type: 'POST',
-            url: "/twitch-bet/twitch/${twitchStream}/getChoiceList",
-            dataType: 'text/plain',
-            success: function(data) {
-        		$("#runEventWinnerList").html(data);
-            },
-            error: function(xhr){
-                alert(xhr.responseText); //<----when no data alert the err msg
-            }
-        });
-	}
-	
-	function updateEvent(eventName){
-		var id = eventName.substring(eventName.indexOf('_')+1)
-		console.log('Updating event - ', id);
-
-		$.ajax({
-			type: 'POST',
-            url: "/twitch-bet/twitch/${twitchStream}/getEvent",
+            url: "/twitch-bet/twitch/${twitchStream}/getUser",
             dataType: 'json',
-            data:{eventId:id},
+            data:{userid: userid,
+                username: username},
             success: function(data) {
                 console.log(data); //<-----this logs the data in browser's console
-                $("#runEventName").html(data.name);
-        		$("#runEventChannel").html(data.channel);
-        		$("#runEventCol2").removeClass('hidden');
-
-        		updateChoiceList();
             },
             error: function(xhr){
                 alert(xhr.responseText); //<----when no data alert the err msg
             }
         });
 	}
-
-	function saveEventWinner(winner){
-		var eventId = $('#runEventList a .active').id;
-		console.log("Event Winner Id - " + eventId);
-
-		$.ajax({
-			type: 'POST',
-            url: "/twitch-bet/twitch/${twitchStream}/getEvent",
-            dataType: 'json',
-            data:{eventId:id,
-                winner:winner},
-            success: function(data) {
-                console.log(data); //<-----this logs the data in browser's console
-                $("#runEventName").html(data.name);
-        		$("#runEventChannel").html(data.channel);
-
-        		$("#runEventCol2").removeClass('hidden');
-            },
-            error: function(xhr){
-                alert(xhr.responseText); //<----when no data alert the err msg
-            }
-        });
-	}
-	
-	$('#runEventList a').on('click', function(e) {
-        e.preventDefault();
-        var currId = e.target.id;
-
-        $that = $(this);
-
-		if(!$that.hasClass('disabled')){
-	        $that.parent().find('a').removeClass('active');
-	        $that.addClass('active');
-	
-			console.log('Click');
-			updateEvent(e.target.id);
-		}
-    });
-
-    function resetEvent(){
-    	$('#runEventTimer').timer('remove');
-    	$('#runEventBetOpen').removeClass().addClass('btn btn-success');
-    	$('#runEventBetClose').removeClass().addClass('btn btn-default disabled');
-
-    	//Reset total values
-    	$('#runEventTotalUser').text("0");
-    	$('#runEventTotalBets').text("0");
-
-    	//Reset winner choice
-    	$('#runEventWinnerDropdown').addClass('disabled');
-    	$('#runEventWinnerLock').addClass('disabled');
-    }
-
-    $('#runEventLock').click(function(e){
-		if($("#runEventCol3").hasClass('hidden')){
-			$("#runEventLock").text("Unlock Event");
-			resetEvent();
-		} else {
-			$("#runEventLock").text("Lock Event");
-		}
-
-		$("#runEventList a").toggleClass('disabled');
-		$("#runEventCol3").toggleClass('hidden');
-				
-		$("#runEventLock").toggleClass("btn-default").toggleClass("btn-primary");
-    });
-
-    $('#runEventBetOpen').on('click', function(e){
-    	$('#runEventBetOpen').addClass('disabled');
-    	$('#runEventBetClose').removeClass('disabled').addClass('btn-danger');
-
-		$('#runEventTimer').timer();
-    });
-
-    $('#runEventBetClose').on('click', function(e){
-    	$('#runEventBetClose').addClass('disabled');
-		$('#runEventTimer').timer('pause');
-
-		$('#runEventWinnerDropdown').removeClass('disabled');
-    });
-
-    $('#runEventWinnerLock').on('click', function(e){
-		var selWinner = $('#runEventWinnerDropdown').text();
-		console.log("Saving winner - " + selWinner);
-    });
-        
-
-    $(".dropdown-menu li a").on('click', function(){
-    	var selText = $(this).text();
-        console.log("Menu clicked - " + selText);
-
-        $('#runEventWinnerLock').removeClass('disabled');
-   		
-   		$(this).parents('.dropup').find('button[data-toggle="dropdown"]').html(selText+' <span class="caret"></span>');
-   	});
-    
 });
 </script>
 </html>

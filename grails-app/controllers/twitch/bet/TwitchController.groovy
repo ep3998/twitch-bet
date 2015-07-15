@@ -12,7 +12,8 @@ class TwitchController {
 	def TAG = 'TwitchController - '
 	def eventList
 	def eventTemplates
-	def choiceList
+	def currChoiceList
+	def currEvent
 	
     def index() { 
 		log.println(TAG + "Rendering index")
@@ -35,25 +36,29 @@ class TwitchController {
 	def getEvent() {
 		log.println(TAG + "Id - " + params.eventId)
 		 
-		def event = Event.get(params.eventId)
-		choiceList = event.choices
+		currEvent = Event.get(params.eventId)
+		currChoiceList = currEvent.choices;
 		
-		render event as JSON
+		log.println(TAG + "Choices - " + currChoiceList + " - " + currChoiceList[0].name)
+		
+		render currEvent as JSON
 	}
 	
 	@Transactional
 	def saveEvent() {
-		log.println(TAG + "Id - " + params.eventId)
 		log.println(TAG + "Winner - " + params.winner)
 		
-		def event = Event.get(params.eventId)
-		if(event == null){
-			return
-		}
+		def newEvent = new Event()
+		newEvent.name = params.eventName
+		newEvent.channel = currEvent.channel
+		newEvent.winner = EventChoice.get(params.winner)
+		newEvent.isTemplate = false
+		newEvent.startDate = new Date()
+		newEvent.endDate = new Date()
 		
-//		if()
+		newEvent.save flush:true
 		
-		render event as JSON
+		render newEvent as JSON
 	}
 	
 //	@Transactional
@@ -80,13 +85,41 @@ class TwitchController {
 //	}
 	
 	def getChoiceList(){
-		render template: '/layouts/choiceList',
-			model: [choiceList: choiceList],
-			contentType: 'text/plain'
+		log.println(TAG + "getChoiceList - " + currChoiceList + " - " + currChoiceList[0].name)
+		
+		render (template: '/layouts/choiceList',
+			model: [choices: currChoiceList],
+			contentType: 'text/html') 
 	}
 	
 	def getSetEvent(){
 		
+	}
+	
+	def getUser(String userid, String username){
+		def myUser = []
 		
+		myUser.addAll(User.findAllByTwitchId(userid))
+		
+		if(myUser.isEmpty()){
+			myUser.add(createUser(userid, username));
+		}
+		
+		def currUser = myUser.get(0);
+		
+		render currUser as JSON
+	}
+	
+	@Transactional
+	def createUser(String userid, String username){
+		
+		def newUser = new User()
+		newUser.twitchId = userid
+		newUser.name = username
+		newUser.money = 1000.00
+
+		newUser.save flush:true	
+		
+		return newUser	
 	}
 }

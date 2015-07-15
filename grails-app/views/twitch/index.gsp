@@ -49,17 +49,51 @@
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="row" id="welcomeSection">
+			<div class="col-md-12" style="text-align: center">
+				<h3>Welcome!</h3>
+				<p>Please login with your Twitch ID in order to participate</p>
+				<p style="font-size:12px">(It's that button in the upper-right)</p>			
+			</div>
+		</div>
+		
+		<div class="row hidden" id="userSection">
+			<div role="tabpanel" class="col-md-12" id="userTabs">
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#userDashboard" aria-controls="userDashboard" role="tab" data-toggle="tab">Dashboard</a></li>
+					<li role="presentation"><a href="#userBet" aria-control="userBet" role="tab" data-toggle="tab">Place Bets</a>
+					<li role="presentation"><a href="#userHistory" aria-control="userHistory" role="tab" data-toggle="tab">View History</a>
+				</ul>
+				
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="userDashboard">
+						<p>User Dashboard</p>
+					</div>
+					
+					<div role="tabpanel" class="tab-pane fade" id="userBet">
+						<p>User Bet Screen</p>
+					</div>
+					
+					<div role="tabpanel" class="tab-pane fade" id="userHistory">
+						<p>User History Screen</p>
+					</div>
+				</div>
+				
+			</div>
+
+		</div>
+		
+		<div class="row hidden" id="adminSection">
 			<div role="tabpanel" class="col-md-12" id="adminTabs">
 				<ul class="nav nav-tabs" role="tablist">
-					<li role="presentation" class="active"><a href="#dashboard" aria-controls="dashboard" role="tab" data-toggle="tab">Dashboard</a></li>
+					<li role="presentation" class="active"><a href="#adminDashboard" aria-controls="adminDashboard" role="tab" data-toggle="tab">Dashboard</a></li>
 					<li role="presentation"><a href="#runEvent" aria-controls="runEvent" role="tab" data-toggle="tab">Run Event</a></li>
 					<li role="presentation"><a href="#manageEvent" aria-controls="manageEvent" role="tab" data-toggle="tab">Edit Events</a></li>
 					<li role="presentation"><a href="#manageUser" aria-controls="manageUser" role="tab" data-toggle="tab">Manage Users</a></li>
 				</ul>
 			
 				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane fade in active" id="dashboard">
+					<div role="tabpanel" class="tab-pane fade in active" id="adminDashboard">
 					<table class="table">
 						<thead>
 						<tr>
@@ -76,7 +110,7 @@
 							<td>${fieldValue(bean: eventInstance, field: "statRuns")}</td>
 							<td>${fieldValue(bean: eventInstance, field: "statTotalMoney")}</td>
 							<td>${fieldValue(bean: eventInstance, field: "statUsers")}</td>
-							<td>${fieldValue(bean: eventInstance, field: "winner")}</td>
+							<td>${fieldValue(bean: eventInstance, field: "winner.name")}</td>
 						</tr>
 					</g:each>
 					</table>
@@ -96,8 +130,10 @@
 							
 							<div id="runEventCol2" class="col-md-5 hidden">
 								<h3>Event Details</h3>
-								<label for="runEventName">Name:</label>
-								<p id="runEventName"></p>
+								<div class="form-group">
+									<label for="runEventName">Name:</label>
+									<input type="text" class="form-control" id="runEventName">
+								</div>
 								
 								<label for="runEventChannel">Channel:</label>
 								<p id="runEventChannel"></p>		
