@@ -86,7 +86,7 @@ $(function() {
 	function grabUserInfo(userid, username){
 		$.ajax({
 			type: 'POST',
-            url: "/twitch-bet/twitch/${twitchStream}/getUser",
+            url: "/twitch-bet/twitchUser/getUser",
             dataType: 'json',
             data:{userid: userid,
                 username: username},

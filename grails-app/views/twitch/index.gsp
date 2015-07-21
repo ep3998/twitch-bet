@@ -71,7 +71,53 @@
 					</div>
 					
 					<div role="tabpanel" class="tab-pane fade" id="userBet">
-						<p>User Bet Screen</p>
+						<div class="col-md-12" style="text-align: center" id="userBetClose">
+							<h3>Waiting for next bet to open...</h3>
+							<button class="btn btn-default" id="startBet">Start Fake Bet</button>
+						</div>
+						
+						<div class="row" id="userBetOpen">
+							<div id="userBetOpenCol1" class="col-md-2">
+								<h3>Choose...</h3>
+								<div id="betChoiceList" class="list-group">
+								</div>
+							</div>
+							
+							<div id="userBetOpenCol2" class="col-md-5 hidden">
+								<h3>Choice Details</h3>
+								<label for="userBetChoiceName">Name:</label>
+								<p id="userBetChoiceName"></p>
+								
+								<label for="userBetChoiceHistory">History:</label>
+								<p id="userBetChoiceHistory"></p>
+							</div>
+							
+							<div id="userBetOpenCol3" class="col-md-5 hidden">
+								<h3>Place Bet</h3>
+								
+								<form class="form-horizontal">
+									<div class="row">
+										<label for="userBank" class="col-sm-2">Bank:</label>
+										<div class="col-sm-10">
+											<p id="userBank"></p>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="userBetAmount" class="col-sm-2 control-label">Amount:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="userBetAmount">
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" class="btn btn-primary">Place Bet</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
 					</div>
 					
 					<div role="tabpanel" class="tab-pane fade" id="userHistory">

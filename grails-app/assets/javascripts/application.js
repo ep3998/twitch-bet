@@ -11,6 +11,7 @@
 //= require bootstrap
 //= require twitch
 //= require runEvent
+//= require betEvent
 
 if (typeof jQuery !== 'undefined') {
 	(function($) {
